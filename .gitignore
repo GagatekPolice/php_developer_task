@@ -2,3 +2,4 @@ vendor
 bin/php-cs-fixer
 bin/php-parse
 bin/phpunit
+.php-cs-fixer.cache

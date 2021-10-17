@@ -29,7 +29,7 @@ Domyślna konfiguracja Dockera dla lokalnego środowiska wystawia następujące 
 
 ### Standard kodu - php-cs-fixer
 
-Narzędzie słuące do utzymania standardu kodu opisane w pliku .php_cs_dist
+Narzędzie słżuące do utrzymania standardu kodu opisanego w pliku .php-cs-fixer.dist.php
 
 ```bash
 bin/php-cs-fix fix

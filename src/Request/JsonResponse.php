@@ -14,6 +14,7 @@ class JsonResponse
     /**
      * @var int metoda wykonanego żądania
      */
+
     private $code;
     /**
      * @var mixed uri wykonanego żądania
