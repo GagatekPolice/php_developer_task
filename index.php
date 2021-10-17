@@ -7,10 +7,7 @@ use Shoper\Recruitment\Task\Request\JsonResponse;
 
 require 'vendor/autoload.php';
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = explode( '/', $uri );
-
-$requestHandler = new ApiRequestHandler($uri);
+$requestHandler = new ApiRequestHandler();
 
 try {
     $requestHandler->processRequest();

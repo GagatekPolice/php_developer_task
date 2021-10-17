@@ -12,14 +12,13 @@ use Shoper\Recruitment\Task\Constants\ApiConstants;
 class JsonResponse
 {
     /**
-     * @var mixed uri wykonanego żądania
-     */
-    private $message;
-
-    /**
      * @var int metoda wykonanego żądania
      */
     private $code;
+    /**
+     * @var mixed uri wykonanego żądania
+     */
+    private $message;
 
     public function __construct($message, int $code = ApiConstants::HTTP_NO_CONTENT)
     {
@@ -30,14 +29,14 @@ class JsonResponse
         $this->displayMessage();
     }
 
+    private function displayMessage(): void
+    {
+        echo json_encode($this->message);
+    }
+
     private function setDefaultHeaders(): void
     {
         header('Content-type: application/json; charset=utf-8');
         http_response_code($this->code);
-    }
-
-    private function displayMessage(): void
-    {
-        echo json_encode($this->message);
     }
 }

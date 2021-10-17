@@ -6,5 +6,4 @@ namespace Shoper\Recruitment\Task;
 
 class DistancesController extends AbstractController
 {
-
 }
