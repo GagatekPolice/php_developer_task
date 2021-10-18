@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Shoper\Recruitment\Task;
+namespace Shoper\Recruitment\Task\Controller;
 
-class DistancesController extends AbstractController
+class DistanceController extends AbstractController
 {
 }

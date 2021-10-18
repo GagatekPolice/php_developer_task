@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 use Shoper\Recruitment\Task\Handler\ApiRequestHandler;
 use Shoper\Recruitment\Task\Request\JsonResponse;
+use Shoper\Recruitment\Task\Services\EnvLoader;
 
 require 'vendor/autoload.php';
 
-$requestHandler = new ApiRequestHandler();
+(new EnvLoader(__DIR__ . '/.env'))->load();
 
 try {
-    $requestHandler->processRequest();
+    (new ApiRequestHandler())->processRequest();
 } catch (\Exception $exception) {
     return new JsonResponse(
-        array(
-            'error' => array(
+        [
+            'error' => [
                 'message' => $exception->getMessage()
-            )),
+            ]
+        ],
         $exception->getCode(),
     );
 }

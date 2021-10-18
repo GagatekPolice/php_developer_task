@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shoper\Recruitment\Task\Handler;
 
-use Shoper\Recruitment\Task\Model\ApiRequest;
+use Shoper\Recruitment\Task\Request\ApiRequest;
 
 /**
-* Klasa zarządzająca żądaniami przychodzącymi do api i rozdzielająca je pomiędzy metody poszczególnych kontrolerów.
+* Klasa zarządzająca żądaniami przychodzącymi do api oraz rozdzielająca je pomiędzy metody poszczególne kontrolery.
 */
 class ApiRequestHandler
 {
@@ -26,6 +26,6 @@ class ApiRequestHandler
      */
     public function processRequest(): void
     {
-        $this->request->validate();
+        $this->request->validate()->processControllerAction();
     }
 }
