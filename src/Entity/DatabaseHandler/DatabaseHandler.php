@@ -22,34 +22,48 @@ class DatabaseHandler
         $this->database = new Database();
     }
 
-    /**
-     * @return array
-     */
     function findAll(string $entity): ?array
     {
-        $result = $this->database->select($entity::TABLE_NAME, '*');
+        $result = $this->database->select($entity::CLASS_NAME, '*');
+
+        return $this->buildResponseObjects($entity, $result);
+    } 
+
+    function findById(string $entity, string $id): ?object
+    {
+        $result = $this->database->select($entity::CLASS_NAME, '*', [['id', $id]]);
 
         return $this->buildResponseObject($entity, $result);
     }
 
-    // public function __destruct() {
-    //     $this->database->disconnect();
-    // }
-
-    public function getDatabase()
+    function insert(object $entity): void
     {
-        return $this->database;
+        $this->database->insert($entity);
     }
 
-private function buildResponseObject($entityClass, $result): ?array
-{
-    foreach ($result as $entityArguments) {
-        foreach ($entityArguments as $field => $value) {
-            $fields[] = $value;
+    /**
+     * @return object
+     */
+    private function buildResponseObject($entityClass, $result): ?object
+    {
+        if ($result){
+            $entity = new $entityClass(...array_values($result[0]));
         }
-        $entitys[] = new $entityClass(...array_values($entityArguments));
-    }
 
-    return $entitys ?? null;
-}
+        return $entity ?? null;
+    } 
+
+    /**
+     * @return array
+     */
+    private function buildResponseObjects($entityClass, $result): ?array
+    {
+        if ($result){
+            foreach ($result as $entityArguments) {
+                $entitys[] = new $entityClass(...array_values($entityArguments));
+            }
+        }
+
+        return $entitys ?? null;
+    }
 }

@@ -6,7 +6,7 @@ namespace Shoper\Recruitment\Task\Entity;
 
 class Headquarter
 {
-    const TABLE_NAME = 'Headquarter'; 
+    const CLASS_NAME = 'Headquarter'; 
 
     /**
      * @var string
@@ -36,7 +36,7 @@ class Headquarter
     public function __construct(string $id, string $city, string $street, string $latitude, string $longitude)
     {
         $this->id = $id;
-        $this->street = $city;
+        $this->city = $city;
         $this->street = $street;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
@@ -44,7 +44,11 @@ class Headquarter
 
     public function asJson() {
         $objectVars = get_object_vars($this);
-        $objectVars['type'] = self::TABLE_NAME;
+        $objectVars['type'] = self::CLASS_NAME;
         return json_decode(json_encode($objectVars));
+    }
+
+    public function getObjectVars(){
+        return get_object_vars($this);
     }
 }

@@ -8,6 +8,7 @@ use Shoper\Recruitment\Task\Constants\ApiConstants;
 use Shoper\Recruitment\Task\Entity\DatabaseHandler\DatabaseHandler;
 use Shoper\Recruitment\Task\Entity\Headquarter;
 use Shoper\Recruitment\Task\Request\JsonResponse;
+use Shoper\Recruitment\Task\Services\Uuid;
 
 class HeadquarterController extends AbstractController
 {
@@ -20,8 +21,6 @@ class HeadquarterController extends AbstractController
     {
         parent::__construct();
         $this->databaseHandler = new DatabaseHandler();
-        // ['id', '1001'], ['name', 'test']]
-        // var_dump($databaseHandler->getDatabase()->select('Headquarter', '*'));
     }
 
     public function getAllAction(): JsonResponse
@@ -41,7 +40,25 @@ class HeadquarterController extends AbstractController
 
     public function getHeadquarterAction(string $productId): JsonResponse
     {
-        // var_dump($databaseHandler->getDatabase()->select('Headquarter', '*'));
-       return new JsonResponse([["test" => 'test223']], ApiConstants::HTTP_OK );
+        $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
+
+        if (!$headquarter) {
+         throw new \Exception("No headquarters found", ApiConstants::HTTP_NOT_FOUND);
+        }
+
+        return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_OK );
+    }
+
+    public function postHeadquarterAction(array $parameters): JsonResponse
+    {
+        $headquarter = new Headquarter(
+            Uuid::uuid4(), 
+            ...array_values($parameters)
+        );
+        //ToDo: dodać walidator requestow
+
+        $this->databaseHandler->insert($headquarter);
+
+        return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_CREATED);
     }
 }

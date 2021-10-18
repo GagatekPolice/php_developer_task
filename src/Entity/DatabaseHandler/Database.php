@@ -54,23 +54,46 @@ class Database
         $this->disconnect();
     }
 
-    public function disconnect()
+    public function insert(object $entity): void
     {
-        if (isset($this->mysqli)) {
-            $this->mysqli->close();
+        $columns = '';
+        $values = '';
+        foreach ($entity->getObjectVars() as $name => $value) {
+            $columns .= $columns
+                ? ', ' . $name 
+                : $name
+            ;
+            $values .= $values
+                ? ', ?' 
+                : '?'
+            ;
+            $conditions[] = [$name, $value];
+        };
+
+        $statement = $this->mysqli->prepare("INSERT INTO " . $entity::CLASS_NAME . " (${columns}) VALUES (${values})");
+
+        if (!$statement) {
+            throw new \Exception('Databse statement error', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        $this->putBindParamValues($conditions, $statement);
+
+        $statement->execute();
+
+        if($this->mysqli->errno === 1062) {
+            throw new \Exception('Conflict error', ApiConstants::HTTP_CONFLICT);
+        }
+        $statement->close();
     }
 
-    function select(string $table, string $columns, array $conditions = [], string $aliases = null, int $limit = null, int $offset = null)
+    public function select(string $table, string $columns, array $conditions = [], int $limit = null, int $offset = null)
     {
         $query = "SELECT ${columns} FROM ${table}";
 
-        // $query = $aliases
-        //     ? $query . ' ' . $aliases . ''
-        //     : $query;
         if (!empty($conditions)) {
             $query .= " WHERE " . $this->generateWhereString($conditions);
         }
+
         if (isset($limit) && isset($offset)) {
             $query .= "LIMIT ${limit} OFFSET ${offset}";
         } else if (isset($limit) && !isset($offset))
@@ -78,49 +101,18 @@ class Database
             $query .= "LIMIT ${limit}";
         }
 
-        // var_dump($query);
-
         $statement = $this->mysqli->prepare($query);
 
         if (!$statement) {
-            var_dump($this->mysqli->connect_error);
             throw new \Exception('Databse statement error', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
         }
-        $bindParamValues = $this->generateBindParamValues($conditions);
-    
-        if ($bindParamValues['values']) {
-            $statement->bind_param($bindParamValues['types'], ...$bindParamValues['values']);
-        }
 
+        $this->putBindParamValues($conditions, $statement);
         $statement->execute();
-
-        //ToDo: Edytować to
-    // Get statement for field names
-        $stmt = $statement;
-        $meta = $stmt->result_metadata();
-
-        // This is the tricky bit dynamically creating an array of variables to use
-        // to bind the results
-        while ($field = $meta->fetch_field()) {
-            $var = $field->name; 
-            ${$var} = null; 
-            $fields[$var] = &${$var};
-        }
-
-        // Bind Results
-        call_user_func_array([$stmt,'bind_result'],$fields);
-
-        // Fetch Results
-        $i = 0;
-        while ($stmt->fetch()) {
-            $results[$i] = [];
-            foreach($fields as $k => $v)
-                $results[$i][$k] = $v;
-            $i++;
-        }
+        $results = $this->fetchResponseData($statement);
         $statement->close();
     
-        return $results;
+        return $results ?? null;
     }
 
     private function connect(): void
@@ -132,24 +124,35 @@ class Database
         }
     }
 
-    /**
-     * @param array $arrayValues dane w formacie [[collumnName, value, (optional) operation, (optional) typ danej bind_param] ... []]
-     * @return string
-     */
-    private function generateBindParamValues(array $conditions): array
+    private function disconnect()
     {
-        $bindParamValues = ['types'=> [], 'values'=> []];
-        foreach ($conditions as $condition) {
-            $bindParamValues['values'][] = $condition[1];
-            $bindParamValues['types'][] = $condition[2] ?? 's';
+        if (isset($this->mysqli)) {
+            $this->mysqli->close();
         }
+    }
 
-        return $bindParamValues;
+    private function fetchResponseData(\mysqli_stmt $statement): ?array
+    {
+        $metaData = $statement->result_metadata();
+
+        while ($field = $metaData->fetch_field()) {
+            $fields[$field->name] = &${$field->name};
+        }
+    
+        call_user_func_array([$statement,'bind_result'],$fields);
+
+        $iterator = 0;
+        while ($statement->fetch()) {
+            foreach($fields as $key => $value) {
+                $results[$iterator][$key] = $value;
+            }
+            $iterator++;
+        }
+        return $results ?? null;
     }
 
     /**
-     * @param array $arrayValues dane w formacie [[collumnName, value, (optional) operation, (optional) typ danej bind_param] ... []]
-     * @return string
+     * @param array $arrayValues dane w formacie [[collumnName, value, (optional) operation, (optional) typ danej metody bind_param] ... []]
      */
     private function generateWhereString(array $conditions): string
     {
@@ -157,9 +160,27 @@ class Database
         foreach ($conditions as $condition) {
             $buildString .= $buildString
                 ? ($condition[2] ?? 'AND ') . $condition[1] . " = ? "
-                : $condition[1] . " = ? ";
+                : $condition[0] . " = ? ";
         }
 
         return $buildString;
+    }
+
+    /**
+     * @param array $arrayValues dane w formacie [[collumnName, value, (optional) operation, (optional) type danej metody bind_param] ... []]
+     */
+    private function putBindParamValues(array $conditions, \mysqli_stmt $statement): void
+    {
+        $bindParamValues = ['types'=> '', 'values'=> []];
+        foreach ($conditions as $condition) {
+            $bindParamValues['values'][] = $condition[1];
+            $bindParamValues['types'] .= $condition[3] ?? 's';
+        }
+
+        if ($bindParamValues['values'] && count($bindParamValues['values']) > 1) {
+            $statement->bind_param($bindParamValues['types'], ...$bindParamValues['values']);
+        } else if ($bindParamValues['values']){
+            $statement->bind_param($bindParamValues['types'], $bindParamValues['values'][0]);
+        }
     }
 }

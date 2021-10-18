@@ -36,6 +36,7 @@ class JsonResponse
 
         $this->setDefaultHeaders();
         $this->displayMessage();
+        exit;
     }
 
      /**

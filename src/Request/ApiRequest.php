@@ -7,6 +7,7 @@ namespace Shoper\Recruitment\Task\Request;
 use Shoper\Recruitment\Task\Constants\ApiConstants;
 use Shoper\Recruitment\Task\Controller\AbstractController;
 use Shoper\Recruitment\Task\Request\JsonResponse;
+use Shoper\Recruitment\Task\Services\Uuid;
 
 class ApiRequest
 {
@@ -20,7 +21,7 @@ class ApiRequest
     /**
      * @var string wyrażenie regularne slużące do walidacji ścieżki uri
      */
-    const REQUEST_PATH_REGEX = "/^[A-Za-z1-9-_]{0,64}$/";
+    const REQUEST_PATH_REGEX = "/^[A-Za-z0-9-_]{0,64}$/";
 
     /**
      * @var string
@@ -93,8 +94,6 @@ class ApiRequest
             );
         } catch (\ArgumentCountError $expection) {
             throw new \Exception($expection->getMessage(), ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (\Exception $expection) {
-            throw new \Exception($expection->getMessage(), ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $controllerResponse ?? new JsonResponse();
@@ -138,7 +137,7 @@ class ApiRequest
     {
         $controllerMethodSegment = !empty($this->uri[2]) 
          ? (
-            is_numeric($this->uri[2])
+            Uuid::isValidUuid($this->uri[2])
                 ? ucfirst($this->uri[1])
                 : ucfirst($this->uri[2])
             )
@@ -146,7 +145,7 @@ class ApiRequest
 
         $method = $this->method . $controllerMethodSegment . "Action";
 
-        if (!method_exists($controller, $method) && !is_numeric($controllerMethodSegment)) {
+        if (!method_exists($controller, $method) && !Uuid::isValidUuid($controllerMethodSegment)) {
             throw new \Exception('Route path method not found: \'' . $controllerMethodSegment . '\'', ApiConstants::HTTP_NOT_FOUND);
         }
 
@@ -161,7 +160,7 @@ class ApiRequest
         $productId = end($this->uri);
 
         //ToDo: jeżeli id będzie UUID, to isNumeric zastąpić metodą typu isValidUuid()
-        return (!empty($productId) && is_numeric($productId))
+        return (!empty($productId) && Uuid::isValidUuid($productId))
             ? $productId
             : null
         ;
