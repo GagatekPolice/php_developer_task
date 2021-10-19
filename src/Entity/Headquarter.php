@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shoper\Recruitment\Task\Entity;
 
-class Headquarter
+class Headquarter extends AbstractProduct
 {
     const CLASS_NAME = 'Headquarter'; 
 
@@ -12,11 +12,6 @@ class Headquarter
      * @var string
      */
     private $city;
-
-    /**
-     * @var string
-     */
-    private $id;
 
     /**
      * @var string
@@ -33,22 +28,25 @@ class Headquarter
      */
     private $street;
 
-    public function __construct(string $id, string $city, string $street, string $latitude, string $longitude)
+    public function __construct(string $city, string $id, string $latitude, string $longitude, string $street)
     {
-        $this->id = $id;
+        parent::__construct($id);
         $this->city = $city;
         $this->street = $street;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
     }
 
-    public function asJson() {
+    public function asJson(): object
+    {
         $objectVars = get_object_vars($this);
         $objectVars['type'] = self::CLASS_NAME;
+
         return json_decode(json_encode($objectVars));
     }
 
-    public function getObjectVars(){
+    public function getObjectVars(): array
+    {
         return get_object_vars($this);
     }
 }

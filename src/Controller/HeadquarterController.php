@@ -23,6 +23,19 @@ class HeadquarterController extends AbstractController
         $this->databaseHandler = new DatabaseHandler();
     }
 
+    public function deleteHeadquarterAction(string $productId): JsonResponse
+    {
+        $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
+
+        if (!$headquarter) {
+         throw new \Exception("Headquarter not found", ApiConstants::HTTP_NOT_FOUND);
+        }
+
+        $this->databaseHandler->deleteById($headquarter);
+
+        return new JsonResponse(null, ApiConstants::HTTP_OK );
+    }
+
     public function getAllAction(): JsonResponse
     {
        $headquarters = $this->databaseHandler->findAll(Headquarter::class);
@@ -43,7 +56,7 @@ class HeadquarterController extends AbstractController
         $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
 
         if (!$headquarter) {
-         throw new \Exception("No headquarters found", ApiConstants::HTTP_NOT_FOUND);
+         throw new \Exception("Headquarter not found", ApiConstants::HTTP_NOT_FOUND);
         }
 
         return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_OK );
@@ -52,13 +65,31 @@ class HeadquarterController extends AbstractController
     public function postHeadquarterAction(array $parameters): JsonResponse
     {
         $headquarter = new Headquarter(
+            $parameters['city'],
             Uuid::uuid4(), 
-            ...array_values($parameters)
+            $parameters['latitude'],
+            $parameters['longitude'],
+            $parameters['street'],
         );
+
         //ToDo: dodać walidator requestow
 
         $this->databaseHandler->insert($headquarter);
 
         return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_CREATED);
+    }
+
+    public function putHeadquarterAction(string $productId, array $parameters): JsonResponse
+    {
+        $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
+
+        if (!$headquarter) {
+         throw new \Exception("Headquarter not found", ApiConstants::HTTP_NOT_FOUND);
+        }
+
+        //ToDo: dodać walidator requestow
+        $headquarter = $this->databaseHandler->update($headquarter, $parameters);
+
+        return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_OK);
     }
 }

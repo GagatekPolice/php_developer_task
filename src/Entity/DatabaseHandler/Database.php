@@ -6,13 +6,14 @@ namespace Shoper\Recruitment\Task\Entity\DatabaseHandler;
 
 use Shoper\Recruitment\Task\Constants\ApiConstants;
 use Shoper\Recruitment\Task\Model\DatabaseInterface;
-use Shoper\Recruitment\Task\Request\ApiRequest;
+use Shoper\Recruitment\Task\Model\ProductInterface;
 
 /**
 * Kalsa opisuje ustawienia połączenia z bazą danych 
 */
-class Database
+class Database implements DatabaseInterface
 {
+    const CONFLICT_CODE = 1062;
     const DATABASE_PORT = 3306;
 
     /**
@@ -54,10 +55,31 @@ class Database
         $this->disconnect();
     }
 
-    public function insert(object $entity): void
+    public function deleteById(ProductInterface $entity): void
+    {
+        $statement = $this->mysqli->prepare("DELETE FROM " . $entity::CLASS_NAME . " WHERE id = ( ? )");
+
+        if (!$statement) {
+            throw new \Exception('Databse statement error', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        // Zmienna stworzona na potrzeby bind_param, który nie przyjmuje referencji
+        $productId = $entity->getId();
+        $statement->bind_param('s', $productId);
+
+        $statement->execute();
+
+        if ($this->mysqli->errno) {
+            throw new \Exception('Deleting row error', ApiConstants::HTTP_CONFLICT);
+        }
+
+        $statement->close();
+    }
+
+    public function insert(ProductInterface $entity): void
     {
         $columns = '';
-        $values = '';
+        $values = '';;
         foreach ($entity->getObjectVars() as $name => $value) {
             $columns .= $columns
                 ? ', ' . $name 
@@ -80,13 +102,14 @@ class Database
 
         $statement->execute();
 
-        if($this->mysqli->errno === 1062) {
+        if ($this->mysqli->errno === self::CONFLICT_CODE) {
             throw new \Exception('Conflict error', ApiConstants::HTTP_CONFLICT);
         }
+
         $statement->close();
     }
 
-    public function select(string $table, string $columns, array $conditions = [], int $limit = null, int $offset = null)
+    public function select(string $table, string $columns, array $conditions = [], int $limit = null, int $offset = null): ?array
     {
         $query = "SELECT ${columns} FROM ${table}";
 
@@ -111,20 +134,23 @@ class Database
         $statement->execute();
         $results = $this->fetchResponseData($statement);
         $statement->close();
-    
+
         return $results ?? null;
+    }
+
+    public function update(ProductInterface $entity, array $parameters): ?ProductInterface
+    {
     }
 
     private function connect(): void
     {
         $this->mysqli = new \mysqli($this->host, $this->username, $this->password, $this->name);
-
         if ($this->mysqli->connect_error) {
             throw new \Exception('Databse connection error', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    private function disconnect()
+    private function disconnect(): void
     {
         if (isset($this->mysqli)) {
             $this->mysqli->close();
@@ -134,7 +160,6 @@ class Database
     private function fetchResponseData(\mysqli_stmt $statement): ?array
     {
         $metaData = $statement->result_metadata();
-
         while ($field = $metaData->fetch_field()) {
             $fields[$field->name] = &${$field->name};
         }
@@ -142,17 +167,21 @@ class Database
         call_user_func_array([$statement,'bind_result'],$fields);
 
         $iterator = 0;
+        ksort($fields);
         while ($statement->fetch()) {
             foreach($fields as $key => $value) {
                 $results[$iterator][$key] = $value;
             }
             $iterator++;
         }
+
         return $results ?? null;
     }
 
     /**
-     * @param array $arrayValues dane w formacie [[collumnName, value, (optional) operation, (optional) typ danej metody bind_param] ... []]
+     * @param array $arrayValues dane w formacie
+     * [[collumnName, value, (optional) operation, (optional) typ danej metody bind_param] ... []]
+     * @example [['id', '8fe8e007*']['city', 'Szczecin', 'AND', 's']]
      */
     private function generateWhereString(array $conditions): string
     {
@@ -167,7 +196,9 @@ class Database
     }
 
     /**
-     * @param array $arrayValues dane w formacie [[collumnName, value, (optional) operation, (optional) type danej metody bind_param] ... []]
+     * @param array $arrayValues dane w formacie
+     * [[collumnName, value, (optional) operation, (optional) type danej metody bind_param] ... []]
+     * @example [['id', '8fe8e007*']['city', 'Szczecin', 'AND', 's']]
      */
     private function putBindParamValues(array $conditions, \mysqli_stmt $statement): void
     {

@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Shoper\Recruitment\Task\Model;;
+namespace Shoper\Recruitment\Task\Model;
 
 interface DatabaseInterface {
-function connect(): bool;
+public function deleteById(ProductInterface $entity): void;
 
-function delete(string $tableName, array $conditions);
+public function insert(ProductInterface $entity): void;
 
-function disconnect(): void;
+public function select(string $table, string $columns, array $conditions = [], int $limit = null, int $offset = null): ?array;
 
-function insert(string $tableName, array $columns, array $values);
-
-function select(string $tableName, string $columns, array $conditions, int $limit, int $offset);
-
-function update(string $tableName, array $columns, array $values, array $conditions);
+public function update(ProductInterface $entity, array $parameters): ?ProductInterface;
 }

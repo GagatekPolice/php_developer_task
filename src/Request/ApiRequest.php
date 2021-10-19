@@ -12,7 +12,7 @@ use Shoper\Recruitment\Task\Services\Uuid;
 class ApiRequest
 {
     /**
-     * @var array dozwolone przez api typy przyjmowany danych w ciele żądania
+     * @var array dozwolone przez api typy przyjmowanych danych w ciele żądania
      */
     const AVAILABLE_CONTENT_TYPES = ['application/json'];
 
@@ -113,6 +113,7 @@ class ApiRequest
                 throw new \Exception('Invalid route name: \'' . $value . '\'', ApiConstants::HTTP_BAD_REQUEST);
             }
         }
+
         return $this;
     }
 
@@ -159,7 +160,6 @@ class ApiRequest
     {
         $productId = end($this->uri);
 
-        //ToDo: jeżeli id będzie UUID, to isNumeric zastąpić metodą typu isValidUuid()
         return (!empty($productId) && Uuid::isValidUuid($productId))
             ? $productId
             : null

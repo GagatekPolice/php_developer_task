@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Shoper\Recruitment\Task\Entity\DatabaseHandler;
 
-use Shoper\Recruitment\Task\Model\DatabaseInterface;
-use Shoper\Recruitment\Task\Request\ApiRequest;
+use Shoper\Recruitment\Task\Model\ProductInterface;
 
 /**
 * Klasa 
@@ -22,41 +21,40 @@ class DatabaseHandler
         $this->database = new Database();
     }
 
-    function findAll(string $entity): ?array
+    public function deleteById(ProductInterface $entity): void
+    {
+        $this->database->deleteById($entity);
+    }
+
+    public function findAll(string $entity): ?array
     {
         $result = $this->database->select($entity::CLASS_NAME, '*');
 
         return $this->buildResponseObjects($entity, $result);
     } 
 
-    function findById(string $entity, string $id): ?object
+    public function findById(string $entity, array $id): ?ProductInterface
     {
         $result = $this->database->select($entity::CLASS_NAME, '*', [['id', $id]]);
 
         return $this->buildResponseObject($entity, $result);
     }
 
-    function insert(object $entity): void
+    function insert(ProductInterface $entity, array $parameters): void
     {
-        $this->database->insert($entity);
+        $this->database->insert($entity, $parameters);
     }
 
-    /**
-     * @return object
-     */
-    private function buildResponseObject($entityClass, $result): ?object
+    private function buildResponseObject(string $entityClass, ?array $result): ?ProductInterface
     {
         if ($result){
-            $entity = new $entityClass(...array_values($result[0]));
+            return new $entityClass(...array_values($result[0]));
         }
 
-        return $entity ?? null;
+        return null;
     } 
 
-    /**
-     * @return array
-     */
-    private function buildResponseObjects($entityClass, $result): ?array
+    private function buildResponseObjects(string $entityClass, ?array $result): ?array
     {
         if ($result){
             foreach ($result as $entityArguments) {
