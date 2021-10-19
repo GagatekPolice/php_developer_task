@@ -33,16 +33,27 @@ class DatabaseHandler
         return $this->buildResponseObjects($entity, $result);
     } 
 
-    public function findById(string $entity, array $id): ?ProductInterface
+    public function findById(string $entity, string $id): ?ProductInterface
     {
         $result = $this->database->select($entity::CLASS_NAME, '*', [['id', $id]]);
 
         return $this->buildResponseObject($entity, $result);
     }
 
-    function insert(ProductInterface $entity, array $parameters): void
+    function insert(ProductInterface $entity): void
     {
-        $this->database->insert($entity, $parameters);
+        $this->database->insert($entity);
+    }
+
+    public function update(ProductInterface $entity, array $parameters): ProductInterface
+    {
+        foreach ($parameters as $key => $value) {
+            call_user_func([$entity, 'set' . ucfirst(strtolower($key))], $value);
+        }
+
+        $this->database->update($entity);
+
+        return $entity;
     }
 
     private function buildResponseObject(string $entityClass, ?array $result): ?ProductInterface

@@ -73,13 +73,12 @@ class HeadquarterController extends AbstractController
         );
 
         //ToDo: dodać walidator requestow
-
         $this->databaseHandler->insert($headquarter);
 
         return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_CREATED);
     }
 
-    public function putHeadquarterAction(string $productId, array $parameters): JsonResponse
+    public function putHeadquarterAction(array $parameters, string $productId): JsonResponse
     {
         $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
 

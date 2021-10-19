@@ -11,5 +11,5 @@ public function insert(ProductInterface $entity): void;
 
 public function select(string $table, string $columns, array $conditions = [], int $limit = null, int $offset = null): ?array;
 
-public function update(ProductInterface $entity, array $parameters): ?ProductInterface;
+public function update(ProductInterface $entity): void;
 }

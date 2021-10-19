@@ -138,8 +138,31 @@ class Database implements DatabaseInterface
         return $results ?? null;
     }
 
-    public function update(ProductInterface $entity, array $parameters): ?ProductInterface
+    public function update(ProductInterface $entity): void
     {
+        $query = "UPDATE " . $entity::CLASS_NAME . " SET ";
+
+        $columnsQuery = '';
+        foreach ($entity->asJson() as $fieldName => $value) {
+            if($fieldName !== 'type' && $fieldName !== 'id') {
+                if(empty($columnsQuery)) {
+                    $columnsQuery .= $fieldName . ' = ?';
+                } else {
+                    $columnsQuery .= ' , ' . $fieldName . ' = ?';
+                }
+                $conditions[] = [$fieldName, $value];
+            }
+        }
+        $statement = $this->mysqli->prepare($query . $columnsQuery);
+
+        if (!$statement) {
+            throw new \Exception('Databse statement error', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        $this->putBindParamValues($conditions, $statement);
+
+        $statement->execute();
+        $statement->close();
     }
 
     private function connect(): void
@@ -168,6 +191,7 @@ class Database implements DatabaseInterface
 
         $iterator = 0;
         ksort($fields);
+
         while ($statement->fetch()) {
             foreach($fields as $key => $value) {
                 $results[$iterator][$key] = $value;
