@@ -153,7 +153,9 @@ class Database implements DatabaseInterface
                 $conditions[] = [$fieldName, $value];
             }
         }
-        $statement = $this->mysqli->prepare($query . $columnsQuery);
+
+        $conditions[] = ['id', $entity->getId()];
+        $statement = $this->mysqli->prepare($query . $columnsQuery . " WHERE id = ?");
 
         if (!$statement) {
             throw new \Exception('Databse statement error', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);

@@ -8,6 +8,13 @@ class Headquarter extends AbstractProduct
 {
     const CLASS_NAME = 'Headquarter'; 
 
+    const PATTERNS = [
+        "city" => "/^[a-zA-Zp{L}\p{N} -]{1,64}$/",
+        "latitude" => "/^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/",
+        "longitude" => "/^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/",
+        "street" => "/^[a-zA-Zp{L}\p{N} -0-9]{1,64}$/",
+    ];
+
     /**
      * @var string
      */

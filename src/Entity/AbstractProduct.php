@@ -28,4 +28,9 @@ abstract class AbstractProduct implements ProductInterface
     {
         return $this->id;
     }
+
+    public function getPaterns(): array
+    {
+        return self::PATTERNS;
+    }
 }

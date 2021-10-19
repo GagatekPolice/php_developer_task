@@ -5,22 +5,15 @@ declare(strict_types=1);
 namespace Shoper\Recruitment\Task\Controller;
 
 use Shoper\Recruitment\Task\Constants\ApiConstants;
-use Shoper\Recruitment\Task\Entity\DatabaseHandler\DatabaseHandler;
 use Shoper\Recruitment\Task\Entity\Headquarter;
 use Shoper\Recruitment\Task\Request\JsonResponse;
 use Shoper\Recruitment\Task\Services\Uuid;
 
 class HeadquarterController extends AbstractController
 {
-    /**
-     * @var DatabaseHandler
-     */
-    private $databaseHandler;
-
     public function __construct()
     {
         parent::__construct();
-        $this->databaseHandler = new DatabaseHandler();
     }
 
     public function deleteHeadquarterAction(string $productId): JsonResponse
