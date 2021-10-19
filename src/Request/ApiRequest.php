@@ -54,7 +54,12 @@ class ApiRequest
      */
     public function getJsonBody(): array
     {
-        return json_decode($this->body, true);
+        $jsonBody = json_decode($this->body, true);
+        if (empty($jsonBody)) {
+            throw new \Exception('Invalid Json body provided', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $jsonBody;
     }
 
     /**
@@ -93,6 +98,8 @@ class ApiRequest
                 $functionArguments
             );
         } catch (\ArgumentCountError $expection) {
+            throw new \Exception($expection->getMessage(), ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\TypeError $expection) {
             throw new \Exception($expection->getMessage(), ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
         }
 

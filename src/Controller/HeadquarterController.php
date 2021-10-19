@@ -57,6 +57,16 @@ class HeadquarterController extends AbstractController
 
     public function postHeadquarterAction(array $parameters): JsonResponse
     {
+        $this->validateParameters(
+            $parameters,
+            [
+                'city' => true,
+                'latitude' => true,
+                'longitude' => true,
+                'street' => true
+            ]
+        );
+
         $headquarter = new Headquarter(
             $parameters['city'],
             Uuid::uuid4(), 
@@ -65,7 +75,7 @@ class HeadquarterController extends AbstractController
             $parameters['street'],
         );
 
-        //ToDo: dodać walidator requestow
+        $this->validateEntity($headquarter);
         $this->databaseHandler->insert($headquarter);
 
         return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_CREATED);
@@ -79,8 +89,26 @@ class HeadquarterController extends AbstractController
          throw new \Exception("Headquarter not found", ApiConstants::HTTP_NOT_FOUND);
         }
 
-        //ToDo: dodać walidator requestow
-        $headquarter = $this->databaseHandler->update($headquarter, $parameters);
+        $this->validateParameters(
+            $parameters,
+            [
+                'city' => false,
+                'latitude' => false,
+                'longitude' => false,
+                'street' => false
+            ]
+        );
+
+        foreach ($parameters as $key => $value) {
+            if(!property_exists($headquarter, $key)) {
+                throw new \Exception('Invalid key: \'' . $key . '\'', ApiConstants::HTTP_BAD_REQUEST);
+            }
+
+            call_user_func([$headquarter, 'set' . ucfirst(strtolower($key))], $value);
+        }
+
+        $this->validateEntity($headquarter);
+        $headquarter = $this->databaseHandler->update($headquarter);
 
         return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_OK);
     }

@@ -45,12 +45,8 @@ class DatabaseHandler
         $this->database->insert($entity);
     }
 
-    public function update(ProductInterface $entity, array $parameters): ProductInterface
+    public function update(ProductInterface $entity): ProductInterface
     {
-        foreach ($parameters as $key => $value) {
-            call_user_func([$entity, 'set' . ucfirst(strtolower($key))], $value);
-        }
-
         $this->database->update($entity);
 
         return $entity;

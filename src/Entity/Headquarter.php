@@ -10,8 +10,8 @@ class Headquarter extends AbstractProduct
 
     const PATTERNS = [
         "city" => "/^[a-zA-Zp{L}\p{N} -]{1,64}$/",
-        "latitude" => "/^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/",
-        "longitude" => "/^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/",
+        "latitude" => "/^-?(([1-8][0-9]{2})|([1-9][0-9])|([1-9]))\.\d{1,7}$/",
+        "longitude" => "/^-?(([1-9][0-9])|([1-9]))\.\d{1,8}$/",
         "street" => "/^[a-zA-Zp{L}\p{N} -0-9]{1,64}$/",
     ];
 
@@ -55,6 +55,11 @@ class Headquarter extends AbstractProduct
     public function getObjectVars(): array
     {
         return get_object_vars($this);
+    }
+
+    public function getPatterns(): array
+    {
+        return self::PATTERNS;
     }
 
     public function setCity(string $city): self
