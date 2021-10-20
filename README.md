@@ -9,6 +9,7 @@ o Here Maps API.
 ## Uruchomienie lokalnie w ramach Dockera 
 
 Korzystamy z konfiguracji zawartej w pliku .env
+(na potrzeby rekrutacji, plik .env został uzupełniony o produkcyjne wartości)
 
 Pobieramy zależności opisane w composer.json
 
