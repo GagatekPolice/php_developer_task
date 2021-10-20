@@ -46,3 +46,9 @@ Narzędzie słżuące do utrzymania standardu kodu opisanego w pliku .php-cs-fix
 ```bash
 bin/php-cs-fix fix
 ```
+
+### Testy jednotskowe - phpunit
+
+```bash
+bin/phpunit
+```
