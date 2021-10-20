@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "1ea2f1ee-271d-4ada-9197-10e0e99cc4a1",
+		"name": "shoperApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "headquarter/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/headquarter/all",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"headquarter",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "headquarter/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/headquarter/{{productId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"headquarter",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "headquarter/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"city\": \"Szczecin\",\n    \"street\": \"Cyfrowa 8\",\n    \"latitude\": \"53.45060320\",\n    \"longitude\": \"14.53626458\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/headquarter/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"headquarter",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "headquarter/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/headquarter/{{productId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"headquarter",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "headquarter/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"city\": \"Szczecin\",\n    \"street\": \"Cyfrowa 8\",\n    \"latitude\": \"53.45060320\",\n    \"longitude\": \"14.53626458\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/headquarter/{{productId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"headquarter",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "distance/{id}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destinationLatitude\": \"53.4602232\",\n    \"destinationtLongitude\": \"14.545963\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/distance/{{productId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"distance",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "productId",
+			"value": "5f3bd3a0-9fda-4e8b-b86c-98ef523fedf3"
+		}
+	]
+}
