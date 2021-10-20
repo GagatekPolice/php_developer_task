@@ -6,11 +6,13 @@ namespace Shoper\Recruitment\Task\Entity;
 
 class Headquarter extends AbstractProduct
 {
+    use Traits\CoordinateTrait;
+
     const CLASS_NAME = 'Headquarter'; 
 
     const PATTERNS = [
         "city" => "/^[a-zA-Z\p{L}\p{N} -]{1,64}$/",
-        "latitude" => "/^-?(([1-8][0-9]{2})|([1-9][0-9])|([1-9]))\.\d{1,7}$/",
+        "latitude" => "/^-?(([1-8][0-9]{2})|([1-9][0-9])|([1-9]))\.\d{1,8}$/",
         "longitude" => "/^-?(([1-9][0-9])|([1-9]))\.\d{1,8}$/",
         "street" => "/^[a-zA-Zp{L}\p{N} -0-9]{1,64}$/",
     ];
@@ -19,16 +21,6 @@ class Headquarter extends AbstractProduct
      * @var string
      */
     private $city;
-
-    /**
-     * @var string
-     */
-    private $latitude;
-
-    /**
-     * @var string
-     */
-    private $longitude;
     
     /**
      * @var string

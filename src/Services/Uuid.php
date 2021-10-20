@@ -17,7 +17,7 @@ class Uuid
     }
 
     /**
-     * Generator pseudo unikalnej wartości id
+     * Generator pseudo unikalnej wartości id encji
      */
     static public function uuid4() {
         $data = openssl_random_pseudo_bytes(16);

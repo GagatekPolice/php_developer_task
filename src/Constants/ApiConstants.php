@@ -25,4 +25,9 @@ class ApiConstants
     const HTTP_SEE_OTHER = 303;
     const HTTP_SERVICE_UNAVAILABLE = 503;
     const HTTP_UNPROCESSABLE_ENTITY = 422;
+
+    const METHOD_DELETE = 'DELETE';
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT = 'PUT';
 }

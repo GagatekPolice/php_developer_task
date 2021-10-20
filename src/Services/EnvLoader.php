@@ -6,7 +6,7 @@ namespace Shoper\Recruitment\Task\Services;
 class EnvLoader
 {
     /**
-     * Katalog, w którym znajduje się plika ze zmiennymi środowiskowymi
+     * Katalog, w którym znajduje się plik ze zmiennymi środowiskowymi
      *
      * @var string
      */
