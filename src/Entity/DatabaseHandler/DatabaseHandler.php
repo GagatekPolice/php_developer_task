@@ -7,7 +7,7 @@ namespace Shoper\Recruitment\Task\Entity\DatabaseHandler;
 use Shoper\Recruitment\Task\Model\ProductInterface;
 
 /**
-* Klasa 
+* Klasa odpowiedzialna za zarządzanie łącznością i żądaniami aplikacji do bazy danych
 */
 class DatabaseHandler
 {

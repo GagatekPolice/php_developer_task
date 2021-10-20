@@ -9,7 +9,7 @@ use Shoper\Recruitment\Task\Model\DatabaseInterface;
 use Shoper\Recruitment\Task\Model\ProductInterface;
 
 /**
-* Kalsa opisuje ustawienia połączenia z bazą danych 
+* Klasa opisuje ustawienia połączenia z bazą danych oraz dozwolone operacje na niej
 */
 class Database implements DatabaseInterface
 {
@@ -55,6 +55,9 @@ class Database implements DatabaseInterface
         $this->disconnect();
     }
 
+    /**
+    * Metoda odpowiedzialna za usunięcie obiektu encji o zadanym id z bazy danych
+    */
     public function deleteById(ProductInterface $entity): void
     {
         $statement = $this->mysqli->prepare("DELETE FROM " . $entity::CLASS_NAME . " WHERE id = ( ? )");
@@ -76,6 +79,9 @@ class Database implements DatabaseInterface
         $statement->close();
     }
 
+    /**
+    * Metoda odpowiedzialna za dodanie obiektu encji do bazy danych
+    */
     public function insert(ProductInterface $entity): void
     {
         $columns = '';
@@ -109,6 +115,9 @@ class Database implements DatabaseInterface
         $statement->close();
     }
 
+    /**
+    * Metoda odpowiedzialna za spreparowanie zapytania i wykonanie go na podstawie przekazanych parametrów
+    */
     public function select(string $table, string $columns, array $conditions = [], int $limit = null, int $offset = null): ?array
     {
         $query = "SELECT ${columns} FROM ${table}";
@@ -138,6 +147,9 @@ class Database implements DatabaseInterface
         return $results ?? null;
     }
 
+    /**
+    * Metoda odpowiedzialna za aktualizację obiektu encji w bazie danych
+    */
     public function update(ProductInterface $entity): void
     {
         $query = "UPDATE " . $entity::CLASS_NAME . " SET ";
@@ -182,6 +194,9 @@ class Database implements DatabaseInterface
         }
     }
 
+    /**
+    * Metoda odpowiedzialna za pobranie i sformatowanie odpowiedzi na zapytanie
+    */
     private function fetchResponseData(\mysqli_stmt $statement): ?array
     {
         $metaData = $statement->result_metadata();

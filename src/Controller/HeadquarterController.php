@@ -9,6 +9,9 @@ use Shoper\Recruitment\Task\Entity\Headquarter;
 use Shoper\Recruitment\Task\Request\JsonResponse;
 use Shoper\Recruitment\Task\Services\Uuid;
 
+/**
+ * Klasa odpowiedzialna za operacje na danych obiekcie siedziby firmy
+*/
 class HeadquarterController extends AbstractController
 {
     public function __construct()
@@ -16,6 +19,9 @@ class HeadquarterController extends AbstractController
         parent::__construct();
     }
 
+     /**
+     * Metoda usuwa z bazy danych siedzibę firmy o podanym id
+     */
     public function deleteHeadquarterAction(string $productId): JsonResponse
     {
         $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
@@ -29,6 +35,9 @@ class HeadquarterController extends AbstractController
         return new JsonResponse(null, ApiConstants::HTTP_OK );
     }
 
+    /**
+     * Metoda pobiera z bazy danych wszystkie siedziby firmy
+     */
     public function getAllAction(): JsonResponse
     {
        $headquarters = $this->databaseHandler->findAll(Headquarter::class);
@@ -44,6 +53,9 @@ class HeadquarterController extends AbstractController
        return new JsonResponse($headquarterAsJson, ApiConstants::HTTP_OK );
     }
 
+     /**
+     * Metoda pobiera z bazy danych siedzibę firmy o podanym id
+     */
     public function getHeadquarterAction(string $productId): JsonResponse
     {
         $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
@@ -55,6 +67,9 @@ class HeadquarterController extends AbstractController
         return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_OK );
     }
 
+    /**
+     * Metoda odpowiedzialna za tworzenie obiektu siedziby firmy w bazie danych
+     */
     public function postHeadquarterAction(array $parameters): JsonResponse
     {
         $this->validateParameters(
@@ -81,6 +96,9 @@ class HeadquarterController extends AbstractController
         return new JsonResponse($headquarter->asJson(), ApiConstants::HTTP_CREATED);
     }
 
+    /**
+     * Metoda odpowiedzialna za aktualizację obiektu siedziby firmy w bazie danych
+     */
     public function putHeadquarterAction(array $parameters, string $productId): JsonResponse
     {
         $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);

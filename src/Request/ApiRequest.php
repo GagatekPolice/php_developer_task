@@ -107,7 +107,7 @@ class ApiRequest
     }
 
     /**
-     * Metoda waliduje podstawowe dane przekazane w żądaniu. W tym typ danych oraz przekazaną scieżkę (path).
+     * Metoda waliduje podstawowe dane przekazane w żądaniu. W tym typ danych oraz przekazaną ścieżkę (path).
      */
     public function validate(): self
     {
@@ -125,7 +125,7 @@ class ApiRequest
     }
 
     /**
-     * Metoda formuje, tworzy i zwraca klase kontrolera na podstawie uri
+     * Metoda formuje, tworzy i zwraca klasę kontrolera na podstawie przekazanego uri
      */
     private function createController(): AbstractController
     {

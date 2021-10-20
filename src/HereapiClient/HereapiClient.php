@@ -23,6 +23,9 @@ class HereapiClient
         $this->apiKey = $apiKey;
     }
 
+    /**
+    * Metoda pobierająca odległość pomiędzy podanymi wartościami współrzędnych geograficznych
+    */
     public function getDistance(string $transportMode, Headquarter $headquarter, Destination $destination)
     {
          $response =$this->send(

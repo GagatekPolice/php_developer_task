@@ -20,6 +20,9 @@ abstract class AbstractController
         $this->databaseHandler = new DatabaseHandler();
     }
 
+    /**
+     * Metoda odpowiedzialna za walidację pól obiektu, na podstawie predefiniowanej stałej z wyrażenia regularnego
+    */
     protected function validateEntity(ProductInterface $entity): void
     {
         $patterns = $entity->getPatterns();
@@ -33,6 +36,8 @@ abstract class AbstractController
     }
 
     /**
+     * Metoda odpowiedzialna za walidację pól parametrów przekazanych w ciele żądania, a dostępnych pól encji
+     *
      * @param array $parameters parametry body żądania
      * @param array $conditions warunki walidacji w formacie
      * [possibleFieldName => (bool) isRequired, ...]

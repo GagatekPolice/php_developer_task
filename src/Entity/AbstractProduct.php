@@ -7,7 +7,7 @@ namespace Shoper\Recruitment\Task\Entity;
 use Shoper\Recruitment\Task\Model\ProductInterface;
 
 /**
- * Klasa dotyczy dowolnych produktów api
+ * Klasa opisująca abstrakcje dowolnych produktów api
  */
 abstract class AbstractProduct implements ProductInterface
 {

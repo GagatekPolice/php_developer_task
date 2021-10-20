@@ -11,9 +11,14 @@ use Shoper\Recruitment\Task\HereapiClient\ClientFactory;
 use Shoper\Recruitment\Task\HereapiClient\HereapiClient;
 use Shoper\Recruitment\Task\Request\JsonResponse;
 
+/**
+ * Klasa odpowiedzialna za operacje na danych geograficznych przetwarzanych przez HereAPI
+*/
 class DistanceController extends AbstractController
 {
     const DEFAULT_DISTANCE_UNIT = 'meters';
+
+    const DEFAULT_TRANSPORT_TYPE = 'car';
 
     /**
     * @var HereapiClient
@@ -26,6 +31,10 @@ class DistanceController extends AbstractController
         $this->heareapiCLient = (new ClientFactory())->getHereapiClient();
     }
 
+    /**
+     * Metoda na podstawie szerokości i długości geograficznej oblicza i zwraca z HereAPI
+     * odległość od siedziby firmy shoper.pl do wybranego punktu
+     */
     public function getDistanceAction(array $parameters, string $productId): JsonResponse
     {
         $headquarter = $this->databaseHandler->findById(Headquarter::class, $productId);
@@ -47,7 +56,7 @@ class DistanceController extends AbstractController
         $this->validateEntity($destination);
 
         $distance = $this->heareapiCLient->getDistance(
-            'car',
+            self::DEFAULT_TRANSPORT_TYPE,
             $headquarter,
             $destination
         );
