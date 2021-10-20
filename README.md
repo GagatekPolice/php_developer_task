@@ -25,6 +25,18 @@ docker-compose -f docker-compose.yml up -d --build
 Domyślna konfiguracja Dockera dla lokalnego środowiska wystawia następujące porty:
 - Apache 8080 (endpointy)
 
+## Dokumentacja
+
+Dokumentacja enpointów została opisana w ramach wyeksportowanego pliku shoperApi.postman_collection z aplikacji Postman
+
+|           Path           |  Method |                 Body fields                | Query Params |
+|--------------------------|:-------:|:------------------------------------------:|-------------:|
+| /headquarter/all         |   GET   |                    none                    |      none    |
+| /headquarter/{productId} |   GET   |                    none                    |   productId  |
+| /headquarter/            |   POST  |    city, street, latitude, longitude       |      none    |
+| /headquarter/{productId} |  DELETE |                    none                    |      none    |
+| /headquarter/{productId} |   PUT   |    ?city, ?street, ?latitude, ?longitude   |   productId  |
+| /distance/{{productId}}  |   GET   | destinationLatitude, destinationtLongitude |   productId  |
 ## Narzędzia deweloperskie
 
 ### Standard kodu - php-cs-fixer
