@@ -13,7 +13,7 @@ Korzystamy z konfiguracji zawartej w pliku .env
 W głównym katalogu należy zbudować obraz:
 
 ```bash
-docker-compose -f docker-compose.yml up -d --build
+docker-compose up -d --build
 ```
 
 Domyślna konfiguracja Dockera dla lokalnego środowiska wystawia następujące porty:
