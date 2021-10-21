@@ -44,9 +44,9 @@ class Database implements DatabaseInterface
     public function __construct()
     {
         $this->host = getenv("DB_HOST");
-        $this->username = getenv("DB_USER");
-        $this->password = getenv("DB_PASSWORD");
-        $this->name = getenv("DB_NAME");
+        $this->username = getenv("MYSQL_USER");
+        $this->password = getenv("MYSQL_PASSWORD");
+        $this->name = getenv("MYSQL_DATABASE");
 
         $this->connect();
     }

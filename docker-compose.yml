@@ -1,14 +1,47 @@
 version: '3.4'
 services:
-    php:
-        build: ./docker
-        image: php74
-        restart: on-failure
-        ports:
-            - ${APP_PORT}
-        environment:
-          APP_PORT: ${APP_PORT}
-        volumes:
-            - ".:/var/www/html"
-volumes:
   php:
+    container_name: 'php-apache'
+    build: ./docker
+    image: php:7.4-apache
+    restart: on-failure
+    ports:
+        - ${APP_PORT}
+    environment:
+      APP_PORT: ${APP_PORT}
+    volumes:
+        - ".:/var/www/html"
+    networks:
+      - backend
+    links:
+      - database:database
+  database:
+    container_name: database
+    platform: linux/x86_64
+    image: mysql:5.7
+    restart: on-failure
+    ports:
+        - 3306
+    networks:
+      - backend
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
+    environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - ${PHP_MY_ADMIN_PORT}
+    restart: on-failure
+    environment:
+      PMA_HOST: database
+      PHP_MY_ADMIN_PORT: ${PHP_MY_ADMIN_PORT}
+    depends_on:
+      - database
+    networks:
+      - backend
+networks:
+  backend:

@@ -9,7 +9,6 @@ o Here Maps API.
 ## Uruchomienie lokalnie w ramach Dockera 
 
 Korzystamy z konfiguracji zawartej w pliku .env
-(na potrzeby rekrutacji, plik .env został uzupełniony o produkcyjne wartości)
 
 Pobieramy zależności opisane w composer.json
 
@@ -24,7 +23,21 @@ docker-compose -f docker-compose.yml up -d --build
 ```
 
 Domyślna konfiguracja Dockera dla lokalnego środowiska wystawia następujące porty:
-- Apache 8080 (endpointy)
+- Apache 8000:80 (endpointy)
+- PhpMyAdmin 8080:80
+- Baza danyh  9906:3306
+
+## Wyłączenie lokalnie aplikacji w ramach Dockera
+
+Zatrzymanie aplikacji do ponownego uruchomienia
+```bash
+docker-compose down
+```
+
+Zatrzymanie z usunięciem wszystkich pobranych obrazów
+```bash
+docker-compose down --rmi all
+```
 
 ## Dokumentacja
 
