@@ -5,8 +5,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE shoper.`Headquarter` (
   `id` varchar(64) NOT NULL,
-  `city` text NOT NULL,
-  `street` text NOT NULL,
+  `city` text CHARACTER SET utf8 NOT NULL,
+  `street` text CHARACTER SET utf8 NOT NULL,
   `latitude` decimal(10,8) NOT NULL,
   `longitude` decimal(11,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2;

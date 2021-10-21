@@ -176,6 +176,11 @@ class Database implements DatabaseInterface
         $this->putBindParamValues($conditions, $statement);
 
         $statement->execute();
+
+        if ($statement->error) {
+            throw new \Exception('Databse insert error', ApiConstants::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $statement->close();
     }
 
