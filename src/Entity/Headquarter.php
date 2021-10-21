@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Shoper\Recruitment\Task\Entity;
 
+/**
+* Klasa odpowiedzialna za reprezentację danych obiektu siedziby firmy
+*/
 class Headquarter extends AbstractProduct
 {
     use Traits\CoordinateTrait;

@@ -5,8 +5,6 @@ o Here Maps API.
 
 ## ToDo
 
-Tasks related to new content.
-
 - [ ] Napisać testy jednostkowe
   - [ ] encji
   - [ ] handlerów

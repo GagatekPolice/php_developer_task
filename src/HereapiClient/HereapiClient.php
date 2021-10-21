@@ -41,6 +41,9 @@ class HereapiClient
         return json_decode($response, true)['routes'][0]['sections'][0]['summary']['length'];
     }
 
+    /**
+    * Metoda w pełni formatująca URL zapytania do api
+    */
     private function generateUrl(string $path, ?array $QueryParameters): string
     {
         $url = $this->hostname . $path;

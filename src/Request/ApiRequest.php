@@ -19,7 +19,7 @@ class ApiRequest
     const CONTROLLER_NAMESPACE = "Shoper\Recruitment\Task\Controller\\";
 
     /**
-     * @var string wyrażenie regularne slużące do walidacji ścieżki uri
+     * @var string wyrażenie regularne służące do walidacji ścieżki uri
      */
     const REQUEST_PATH_REGEX = "/^[A-Za-z0-9-_]{0,64}$/";
 
@@ -50,7 +50,7 @@ class ApiRequest
     }
 
     /**
-     * Metoda zwraca ciało dopowiedzi w formacie JSON
+     * Metoda zwraca ciało odpowiedzi w formacie JSON
      */
     public function getJsonBody(): array
     {

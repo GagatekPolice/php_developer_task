@@ -10,7 +10,7 @@ use Shoper\Recruitment\Task\Request\JsonResponse;
 use Shoper\Recruitment\Task\Services\Uuid;
 
 /**
- * Klasa odpowiedzialna za operacje na danych obiekcie siedziby firmy
+ * Klasa odpowiedzialna za operacje na danych siedziby firmy
 */
 class HeadquarterController extends AbstractController
 {
@@ -20,7 +20,7 @@ class HeadquarterController extends AbstractController
     }
 
      /**
-     * Metoda usuwa z bazy danych siedzibę firmy o podanym id
+     * Metoda usuwa z bazy danych siedzibę firmy o podanym id i ją zwraca
      */
     public function deleteHeadquarterAction(string $productId): JsonResponse
     {
@@ -36,7 +36,7 @@ class HeadquarterController extends AbstractController
     }
 
     /**
-     * Metoda pobiera z bazy danych wszystkie siedziby firmy
+     * Metoda pobiera z bazy danych wszystkie siedziby firmy i je zwraca
      */
     public function getAllAction(): JsonResponse
     {

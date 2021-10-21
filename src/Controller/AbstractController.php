@@ -21,7 +21,7 @@ abstract class AbstractController
     }
 
     /**
-     * Metoda odpowiedzialna za walidację pól obiektu, na podstawie predefiniowanej stałej z wyrażenia regularnego
+     * Metoda odpowiedzialna za walidację pól obiektu na podstawie predefiniowanej stałej
     */
     protected function validateEntity(ProductInterface $entity): void
     {
@@ -36,7 +36,7 @@ abstract class AbstractController
     }
 
     /**
-     * Metoda odpowiedzialna za walidację pól parametrów przekazanych w ciele żądania, a dostępnych pól encji
+     * Metoda odpowiedzialna za walidację pól parametrów przekazanych w ciele żądania w stosunku do dostępnych pól encji
      *
      * @param array $parameters parametry body żądania
      * @param array $conditions warunki walidacji w formacie

@@ -244,7 +244,7 @@ class Database implements DatabaseInterface
     /**
      * @param array $arrayValues dane w formacie
      * [[collumnName, value, (optional) operation, (optional) type danej metody bind_param] ... []]
-     * @example [['id', '8fe8e007*']['city', 'Szczecin', 'AND', 's']]
+     * @example [['id', '8fe8e007%']['city', 'Szczecin', 'AND', 's']]
      */
     private function putBindParamValues(array $conditions, \mysqli_stmt $statement): void
     {

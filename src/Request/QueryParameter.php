@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Shoper\Recruitment\Task\Request;
 
 /**
-* Klasa odpowiedzialna za reprezentację wartości parametru query żądania
+* Klasa odpowiedzialna za reprezentację wartości parametru query żądania odpowiedzi
 */
 class QueryParameter
 {

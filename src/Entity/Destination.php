@@ -7,7 +7,7 @@ namespace Shoper\Recruitment\Task\Entity;
 use Shoper\Recruitment\Task\Model\ProductInterface;
 
 /**
-* Klasa odpowiedzialna za reprezentację współrzędnych geograficznych podróży
+* Klasa odpowiedzialna za reprezentację współrzędnych geograficznych punktu podróży
 */
 class Destination implements ProductInterface
 {

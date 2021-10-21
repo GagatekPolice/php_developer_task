@@ -17,7 +17,7 @@ class JsonResponse
     private $code;
 
     /**
-     * @var mixed tresć ciała odpowiedzi na żądanie
+     * @var mixed treść ciała odpowiedzi na żądanie
      */
     private $message;
 

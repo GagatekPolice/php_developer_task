@@ -19,7 +19,7 @@ docker-compose up -d --build
 Domyślna konfiguracja Dockera dla lokalnego środowiska wystawia następujące porty:
 - Apache 8000:80 (endpointy)
 - PhpMyAdmin 8080:80
-- Baza danyh  9906:3306
+- Baza danych  9906:3306
 
 ## Wyłączenie lokalnie aplikacji w ramach Dockera
 
@@ -28,14 +28,14 @@ Zatrzymanie aplikacji do ponownego uruchomienia
 docker-compose down
 ```
 
-Zatrzymanie z usunięciem wszystkich pobranych obrazów
+Zatrzymanie aplikacji z usunięciem wszystkich pobranych obrazów
 ```bash
 docker-compose down --rmi all
 ```
 
 ## Dokumentacja
 
-Dokumentacja enpointów została opisana w ramach wyeksportowanego [pliku](shoperApi.postman_collection.json)
+Dokumentacja enpointów została opisana w ramach wyeksportowanego [pliku](shoperApi.postman_collection.json) aplikacji postman
 
 |           Path           |  Method |                 Body fields                | Query Params |
 |--------------------------|:-------:|:------------------------------------------:|-------------:|
@@ -55,13 +55,13 @@ composer install
 
 ### Standard kodu - php-cs-fixer
 
-Narzędzie słżuące do utrzymania standardu kodu opisanego w pliku .php-cs-fixer.dist.php
+Narzędzie służące do utrzymania standardu kodu opisanego w pliku .php-cs-fixer.dist.php
 
 ```bash
 bin/php-cs-fix fix
 ```
 
-### Testy jednotskowe - phpunit
+### Testy jednostkowe - phpunit
 
 ```bash
 bin/phpunit
