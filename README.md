@@ -10,12 +10,6 @@ o Here Maps API.
 
 Korzystamy z konfiguracji zawartej w pliku .env
 
-Pobieramy zależności opisane w composer.json
-
-```bash
-composer install
-```
-
 W głównym katalogu należy zbudować obraz:
 
 ```bash
@@ -52,6 +46,12 @@ Dokumentacja enpointów została opisana w ramach wyeksportowanego [pliku](shope
 | /headquarter/{productId} |   PUT   |    ?city, ?street, ?latitude, ?longitude   |   productId  |
 | /distance/{{productId}}  |   GET   | destinationLatitude, destinationtLongitude |   productId  |
 ## Narzędzia deweloperskie
+
+W celu pobrania developerskich zależności należy odpalić composer
+
+```bash
+composer install
+```
 
 ### Standard kodu - php-cs-fixer
 

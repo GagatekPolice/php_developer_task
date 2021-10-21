@@ -11,3 +11,4 @@ Tasks related to new content.
   - [ ] encji
   - [ ] handlerów
   - [ ] serwisów
+- [x] composer powinien być odpalany na kontenerze przy docker-compose

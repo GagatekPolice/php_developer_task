@@ -2,7 +2,7 @@ version: '3.4'
 services:
   php:
     container_name: 'php-apache'
-    build: ./docker
+    build: .
     image: php:7.4-apache
     restart: on-failure
     ports:
@@ -15,6 +15,7 @@ services:
       - backend
     links:
       - database:database
+    command: composer install --no-dev --optimize-autoloader
   database:
     container_name: database
     platform: linux/x86_64
