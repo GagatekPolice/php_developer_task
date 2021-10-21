@@ -1,4 +1,6 @@
+### Todo
 
-    
-9. Po co     build: ./docker
-6. Testy jednostkowe
+- [] Testy jednostkowe
+### In Progress
+
+### Done ✓
