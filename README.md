@@ -41,7 +41,8 @@ docker-compose down --rmi all
 
 ## Dokumentacja
 
-Dokumentacja enpointów została opisana w ramach wyeksportowanego pliku shoperApi.postman_collection z aplikacji Postman
+Dokumentacja enpointów została opisana w ramach wyeksportowanego pliku
+[a relative link](shoperApi.postman_collection.json)
 
 |           Path           |  Method |                 Body fields                | Query Params |
 |--------------------------|:-------:|:------------------------------------------:|-------------:|
