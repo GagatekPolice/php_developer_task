@@ -48,7 +48,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"city\": \"Szczecin\",\n    \"street\": \"Cyfrowa 8\",\n    \"latitude\": \"53.45060320\",\n    \"longitude\": \"14.53626458\"\n}",
+					"raw": "{\n    \"city\": \"Szczecin\",\n    \"street\": \"Cyfrowa 8/5\",\n    \"latitude\": \"53.45060320\",\n    \"longitude\": \"14.53626458\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"city\": \"Szczecin\",\n    \"street\": \"Cyfrowa 8\",\n    \"latitude\": \"53.45060320\",\n    \"longitude\": \"14.53626458\"\n}",
+					"raw": "{\n    \"city\": \"Kraków\",\n    \"street\": \"Pawia 10\",\n    \"latitude\": \"50.07048609\",\n    \"longitude\": \"19.94635587\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -167,7 +167,7 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "http://localhost:8080"
+			"value": "http://localhost:8000"
 		},
 		{
 			"key": "productId",
