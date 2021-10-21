@@ -8,9 +8,3 @@ RUN a2enmod rewrite; \
     docker-php-ext-install mysqli curl; 
 
 COPY php.ini /usr/local/etc/php/conf.d/php.ini
-
-COPY --from=composer:2.1.9 /usr/bin/composer /usr/bin/composer
-
-WORKDIR /var/www/html/
-COPY . .
-

@@ -13,9 +13,8 @@ services:
         - ".:/var/www/html"
     networks:
       - backend
-    links:
-      - database:database
-    command: composer install --no-dev --optimize-autoloader
+    depends_on:
+      - database
   database:
     container_name: database
     platform: linux/x86_64
@@ -44,5 +43,14 @@ services:
       - database
     networks:
       - backend
+  composer_installation:
+    container_name: composer_installation
+    image: composer:2.1.9
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    command: composer install --no-dev --optimize-autoloader
+    depends_on:
+      - php
 networks:
   backend:
